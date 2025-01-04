@@ -1,0 +1,107 @@
+{
+  // Enable ESLint.
+  "eslint.enable": true,
+  "files.eol": "\n",
+  // Formatting settings.
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.format": "explicit",
+    "source.fixAll": "explicit"
+  },
+  // Formatting using Prettier by default for all languages.
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // Formatting using Prettier for JavaScript, overrides VSCode default.
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // Linting using ESLint.
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+
+  // Set Jest runMode to on-demand as otherwise it will start running all tests the first time.
+  "jest.runMode": "on-demand",
+
+  // Debugging.
+  "debug.javascript.unmapMissingSources": true,
+
+  // File exclusion.
+  "files.exclude": {
+    "*[!test]**/node_modules": true
+  },
+
+  // Ensure enough terminal history is preserved when running tests.
+  "terminal.integrated.scrollback": 10000,
+
+  // Configure todo-tree to exclude node_modules, dist, and compiled.
+  "todo-tree.filtering.excludeGlobs": ["**/node_modules", "**/dist", "**/compiled"],
+
+  // Match TODO-APP in addition to other TODOs.
+  "todo-tree.general.tags": ["BUG", "HACK", "FIXME", "TODO", "XXX", "[ ]", "[x]", "TODO-APP"],
+
+  // Disable TypeScript surveys.
+  "typescript.surveys.enabled": false,
+
+  // Enable file nesting for unit test files.
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "$(capture).test.ts, $(capture).test.tsx",
+    "*.tsx": "$(capture).test.ts, $(capture).test.tsx"
+  },
+
+  // Spell checker words.
+  "cSpell.words": [
+    "Entrypoints",
+    "napi",
+    "nextjs",
+    "opentelemetry",
+    "prerendered",
+    "Threadsafe",
+    "Turbopack",
+    "zipkin"
+  ],
+
+  // Grammarly settings.
+  "grammarly.selectors": [
+    {
+      "language": "markdown",
+      "scheme": "file"
+    }
+  ],
+
+  // TypeScript settings.
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  // GitLens blame custom arguments.
+  "gitlens.advanced.blame.customArguments": [
+    "--ignore-revs-file",
+    "${workspaceRoot}/.git-blame-ignore-revs"
+  ],
+
+  // Prettier configuration.
+  "prettier.requireConfig": true,
+
+  // Explorer sort order.
+  "explorer.sortOrder": "default",
+
+  // CSS linting settings.
+  "css.lint.unknownAtRules": "ignore",
+  "files.autoSave": "onWindowChange",
+  "notebook.formatOnSave.enabled": true,
+  // prettier setting
+  // "prettier.configPath": "./",
+  // "prettier.htmlWhitespaceSensitivity": "strict",
+  // "prettier.useEditorConfig": false,
+  // "prettier.jsxSingleQuote": true,
+  // "prettier.printWidth": 200,
+  // "prettier.proseWrap": "always",
+  "prettier.tabWidth": 2,
+  "editor.tabSize": 2
+  // "prettier.trailingComma": "all",
+  // "prettier.useTabs": true
+  // Uncomment the following lines if needed.
+  // "scss.lint.unknownAtRules": "ignore",
+  // "less.lint.unknownAtRules": "ignore",
+  // "tailwindCSS.experimental.configFile": "./tailwind.config.js"
+}

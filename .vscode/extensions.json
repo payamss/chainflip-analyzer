@@ -1,0 +1,117 @@
+{
+  "recommendations": [
+    // ESLint extension for VSCode, helps in identifying and fixing linting issues in your code.
+    "dbaeumer.vscode-eslint",
+
+    // Prettier extension for VSCode, used for code formatting to ensure a consistent style.
+    "esbenp.prettier-vscode",
+
+    // Extension for styled-components, provides syntax highlighting and IntelliSense for styled-components.
+    "styled-components.vscode-styled-components",
+
+    // PostCSS extension for VSCode, supports syntax highlighting and other PostCSS features.
+    "csstools.postcss",
+
+    // Auto Rename Tag extension, automatically renames paired HTML/XML tags.
+    "formulahendry.auto-rename-tag",
+
+    // Auto Close Tag extension, automatically adds a closing tag when you type an opening tag.
+    "formulahendry.auto-close-tag",
+
+    // CSS Peek extension, allows peeking at CSS definitions directly from HTML files.
+    "pranaygp.vscode-css-peek",
+
+    // Prettier extension for VSCode (duplicate entry), used for code formatting to ensure a consistent style.
+    "esbenp.prettier-vscode",
+
+    // ESLint extension for VSCode (duplicate entry), helps in identifying and fixing linting issues in your code.
+    "dbaeumer.vscode-eslint",
+
+    // Error Lens extension, highlights errors and warnings inline in your code.
+    "usernamehw.errorlens",
+
+    // Jest extension for VSCode, provides integration for the Jest testing framework.
+    "orta.vscode-jest",
+
+    // GitHub Pull Request extension, allows managing and reviewing pull requests from within VSCode.
+    "github.vscode-pull-request-github",
+
+    // Todo Tree extension, highlights and provides a tree view for TODO comments in your code.
+    "gruntfuggly.todo-tree",
+
+    // Auto Import extension, automatically adds import statements for JavaScript/TypeScript files.
+    "steoates.autoimport",
+
+    // Better Comments extension, enhances your code comments with formatting and highlighting.
+    "aaron-bond.better-comments",
+
+    // Dotenv extension, provides support for working with .env files in VSCode.
+    "mikestead.dotenv",
+
+    // React JS snippets extension by rodrigovallades, provides snippets for React development.
+    "rodrigovallades.es7-react-js-snippets",
+
+    // React JS snippets extension by dsznajder, provides snippets for React development.
+    "dsznajder.es7-react-js-snippets",
+
+    // Git Graph extension, visualizes your Git repository and allows interaction with it.
+    "mhutchie.git-graph",
+
+    // Git History extension, allows viewing and managing Git history from within VSCode.
+    "donjayamanne.githistory",
+
+    // GitHub Actions extension, provides support for GitHub Actions workflows in VSCode.
+    "github.vscode-github-actions",
+
+    // GitLens extension, provides Git superpowers to VSCode, enhancing Git capabilities.
+    "eamodio.gitlens",
+
+    // Highlight Matching Tag extension, highlights matching HTML/XML tags.
+    "vincaslt.highlight-matching-tag",
+
+    // Gutter Preview extension, shows image previews in the gutter (next to line numbers) for image paths in your code.
+    "kisstkondoros.vscode-gutter-preview",
+
+    // IntelliCode extension, provides AI-assisted IntelliSense and code completion.
+    "visualstudioexptteam.vscodeintellicode",
+
+    // TypeScript Next extension, provides the latest TypeScript features in VSCode.
+    "ms-vscode.vscode-typescript-next",
+
+    // Markdown All in One extension, provides a comprehensive suite of tools for working with Markdown files.
+    "yzhang.markdown-all-in-one",
+
+    // Markdown Preview Enhanced extension, enhances the built-in Markdown preview capabilities.
+    "shd101wyy.markdown-preview-enhanced",
+
+    // Material Icon Theme extension, changes the file icons in VSCode to a Material Design style.
+    "pkief.material-icon-theme",
+
+    // Next.js snippets extension, provides code snippets for Next.js development.
+    "pulkitgangwar.nextjs-snippets",
+
+    // Path IntelliSense extension, provides path completion for filenames and directories.
+    "christian-kohler.path-intellisense",
+
+    // Pretty TypeScript Errors extension, enhances the display of TypeScript errors.
+    "yoavbls.pretty-ts-errors",
+
+    // Prisma extension, provides support for Prisma schema files.
+    "prisma.prisma",
+
+    // Simple React Snippets extension, provides basic React snippets for development.
+    "burkeholland.simple-react-snippets",
+
+    // Sort JSON extension, allows sorting of JSON files.
+    "richie5um2.vscode-sort-json",
+
+    // Next.js Generator extension, helps in generating Next.js project files and structure.
+    "imgildev.vscode-nextjs-generator",
+
+    // Tailwind CSS extension, provides IntelliSense for Tailwind CSS classes.
+    "bradlc.vscode-tailwindcss",
+
+    // TypeScript Importer extension, automatically imports TypeScript files.
+    "pmneo.tsimporter"
+  ]
+}
