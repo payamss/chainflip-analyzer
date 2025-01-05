@@ -107,7 +107,7 @@ const OrderTable = () => {
   return (
     <div className="p-6 bg-gray-900 min-h-screen text-white">
       {/* Filter */}
-      <div className="mb-4 flex items-center gap-4">
+      <div className="mb-4 flex items-center gap-4 justify-center text-center">
         <button
           onClick={() => setStatusFilter(null)}
           className={`px-4 py-2 rounded ${statusFilter === null ? 'bg-blue-600' : 'bg-gray-700 hover:bg-blue-900'}`}
