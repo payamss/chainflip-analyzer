@@ -8,21 +8,16 @@ query AllPoolOrders {
     ) {
         totalCount
         nodes {
-            nodeId
             orderType
             status
-            filledQuoteAmount
             quoteAsset
             quoteAmount
             quoteCollectedFees
             quoteCollectedFeesUsd
             baseAsset
-            filledBaseAmount
             baseAmount
             baseCollectedFees
             baseCollectedFeesUsd
-            orderCreatedEventId
-            orderLastUpdatedEventId
             lowerTick
             upperTick
             liquidityProviderId
@@ -36,10 +31,21 @@ query AllPoolOrders {
                     timestamp
                 }
             }
-            orderId
-            id
         }
     }
 }
+`;
 
+export const ALL_ACCOUNTS = gql`
+  query AllAccounts {
+    allAccounts {
+      totalCount
+      nodes {
+        idSs58
+        liquidityProviderByAccountId {
+          id
+        }
+      }
+    }
+  }
 `;
