@@ -1,46 +1,67 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { useQuery } from '@apollo/client';
 import { useState } from 'react';
-import { ALL_POOL_ORDERS } from '../graphql/queries';
+import {
+  calculateTotalFees,
+  calculateDaysPassed,
+  calculateDPR,
+  calculateMPR,
+  calculateAPR,
+  calculatePriceFromTick,
+} from '@/utils/calculateMetrics';
+import { mockOrders } from './mockData';
 
 const ITEMS_PER_PAGE = 15;
 
 const OrderTable = () => {
-  const { data, loading, error } = useQuery(ALL_POOL_ORDERS);
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const [orderTypeFilter, setOrderTypeFilter] = useState<string>('');
 
-  if (loading) return <div className="text-center p-4 text-white">Loading...</div>;
-  if (error) return <div className="text-center text-red-500 p-4">Error: {error.message}</div>;
+  // Extend the data with dynamically computed fields for sorting
+  const extendedData = mockOrders.map((order: any) => {
+    const earnedFees = calculateTotalFees(order);
+    const orderValue = parseFloat(order.quoteAmount) / 1e6; // Convert to proper units
+    const daysPassed = calculateDaysPassed(order.eventByOrderCreatedEventId.blockByBlockId.timestamp);
+    const dpr = calculateDPR(earnedFees, orderValue, daysPassed);
+    const mpr = calculateMPR(dpr);
+    const apr = calculateAPR(dpr);
 
-  let filteredData = [...data.allPoolOrders.nodes];
+    return {
+      ...order,
+      earnedFees,
+      orderValue,
+      daysPassed,
+      dpr,
+      mpr,
+      apr,
+    };
+  });
 
-  // Apply filters
-  if (orderTypeFilter) {
-    filteredData = filteredData.filter((order: any) => order.orderType === orderTypeFilter);
-  }
-
-  // Apply sorting
+  // Sorting logic
+  const sortedData = [...extendedData];
   if (sortConfig !== null) {
-    filteredData.sort((a: any, b: any) => {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
+    sortedData.sort((a: any, b: any) => {
+      const aValue = a[sortConfig.key];
+      const bValue = b[sortConfig.key];
+
+      if (aValue < bValue) {
         return sortConfig.direction === 'asc' ? -1 : 1;
       }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
+      if (aValue > bValue) {
         return sortConfig.direction === 'asc' ? 1 : -1;
       }
       return 0;
     });
   }
 
-  const totalItems = filteredData.length;
+  // Pagination
+  const totalItems = sortedData.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   const startIndex = currentPage * ITEMS_PER_PAGE;
-  const currentItems = filteredData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const currentItems = sortedData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
+  // Sorting handler
   const handleSort = (key: string) => {
     if (sortConfig && sortConfig.key === key) {
       setSortConfig({
@@ -52,70 +73,78 @@ const OrderTable = () => {
     }
   };
 
+  // Pagination handler
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
   return (
     <div className="p-6 bg-gray-900 min-h-screen text-white">
-
-      {/* Filter */}
-      <div className="flex justify-center mb-6">
-        <select
-          value={orderTypeFilter}
-          onChange={(e) => setOrderTypeFilter(e.target.value)}
-          className="border border-blue-600 bg-gray-800 text-white p-2 rounded shadow-md focus:outline-none focus:ring-2 focus:ring-blue-950"
-        >
-          <option value="">All Order Types</option>
-          <option value="LIMIT">LIMIT</option>
-          <option value="RANGE">RANGE</option>
-        </select>
-      </div>
-
       {/* Table */}
       <div className="overflow-x-auto bg-gray-800 shadow-lg rounded-lg border border-gray-700">
         <table className="min-w-full text-sm">
           <thead className="bg-blue-950 text-white uppercase">
             <tr>
-              <th
-                className="border border-gray-700 p-4 text-left cursor-pointer"
-                onClick={() => handleSort('orderId')}
-              >
-                Order ID {sortConfig?.key === 'orderId' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
+              <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('nodeId')}>
+                id {sortConfig?.key === 'nodeId' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
               </th>
-              <th
-                className="border border-gray-700 p-4 text-left cursor-pointer"
-                onClick={() => handleSort('quoteAsset')}
-              >
-                Quote Asset {sortConfig?.key === 'quoteAsset' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
+              <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('orderType')}>
+                Type {sortConfig?.key === 'orderType' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
               </th>
-              <th
-                className="border border-gray-700 p-4 text-left cursor-pointer"
-                onClick={() => handleSort('baseAsset')}
-              >
-                Base Asset {sortConfig?.key === 'baseAsset' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
+              <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('baseAmount')}>
+                Assets / Amount {sortConfig?.key === 'baseAmount' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
               </th>
-              <th
-                className="border border-gray-700 p-4 text-left cursor-pointer"
-                onClick={() => handleSort('status')}
-              >
-                Status {sortConfig?.key === 'status' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
+              <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('orderValue')}>
+                Value {sortConfig?.key === 'orderValue' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
+              </th>
+              <th className="border border-gray-700 p-4 text-left">Price / Range</th>
+              <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('earnedFees')}>
+                Earned Fees {sortConfig?.key === 'earnedFees' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
+              </th>
+              <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('daysPassed')}>
+                Duration (Days) {sortConfig?.key === 'daysPassed' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
+              </th>
+              <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('dpr')}>
+                DPR {sortConfig?.key === 'dpr' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
+              </th>
+              <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('mpr')}>
+                MPR {sortConfig?.key === 'mpr' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
+              </th>
+              <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('apr')}>
+                APR {sortConfig?.key === 'apr' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
               </th>
             </tr>
           </thead>
           <tbody>
-            {currentItems.map((order: any, index: number) => (
-              <tr
-                key={order.id}
-                className={`${index % 2 === 0 ? 'bg-gray-700' : 'bg-gray-800'
-                  } hover:bg-blue-800 transition-colors duration-200`}
-              >
-                <td className="border border-gray-700 p-4">{order.orderId}</td>
-                <td className="border border-gray-700 p-4">{order.quoteAsset}</td>
-                <td className="border border-gray-700 p-4">{order.baseAsset}</td>
-                <td className="border border-gray-700 p-4">{order.status}</td>
-              </tr>
-            ))}
+            {currentItems.map((order: any, index: number) => {
+              const baseAmount = (parseFloat(order.baseAmount || 0) / 1e18).toFixed(6);
+              const quoteAmount = (parseFloat(order.quoteAmount || 0) / 1e6).toFixed(6);
+              const lowerPrice = calculatePriceFromTick(order.lowerTick);
+              const upperPrice = calculatePriceFromTick(order.upperTick);
+              return (
+                <tr
+                  key={order.nodeId}
+                  className={`${index % 2 === 0 ? 'bg-gray-700' : 'bg-gray-800'} hover:bg-blue-800 transition-colors duration-200`}
+                >
+                  <td className="border border-gray-700 p-4">{order.nodeId} </td>
+                  <td className="border border-gray-700 p-4">{order.orderType || 'N/A'}</td>
+                  <td className="border border-gray-700 p-4">
+                    <div>{`${baseAmount} ${order.baseAsset || 'N/A'}`}</div>
+                    <div>{`${quoteAmount} ${order.quoteAsset || 'N/A'}`}</div>
+                  </td>
+                  <td className="border border-gray-700 p-4">${order.orderValue.toFixed(2)}</td>
+                  <td className="border border-gray-700 p-4">
+                    <div>{`Lower: ${lowerPrice.toFixed(6)}`}</div>
+                    <div>{`Upper: ${upperPrice.toFixed(6)}`}</div>
+                  </td>
+                  <td className="border border-gray-700 p-4">${order.earnedFees.toFixed(6)}</td>
+                  <td className="border border-gray-700 p-4">{order.daysPassed} days</td>
+                  <td className="border border-gray-700 p-4">{order.dpr}%</td>
+                  <td className="border border-gray-700 p-4">{order.mpr}%</td>
+                  <td className="border border-gray-700 p-4">{order.apr}%</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
