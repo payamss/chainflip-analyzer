@@ -20,6 +20,7 @@ const ITEMS_PER_PAGE = 50;
 const OrderTable = () => {
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null); // To store the selected status filter
 
   // Fetch data using Apollo Client
   const { loading, error, data } = useQuery(ALL_POOL_ORDERS, { client });
@@ -29,13 +30,13 @@ const OrderTable = () => {
 
   const rawOrders = data?.allPoolOrders?.nodes || [];
 
-  // Extend the data with dynamically computed fields for sorting
+  // Extend the data with dynamically computed fields
   const extendedData = rawOrders.map((order: any) => {
     const earnedFees = calculateTotalFees(order);
-    const orderValue = calculateOrderValue(order); // Compute USD value
+    const orderValue = calculateOrderValue(order);
     const duration = calculateDuration(
       order.eventByOrderCreatedEventId.blockByBlockId.timestamp,
-      order.eventByOrderLastUpdatedEventId?.blockByBlockId.timestamp || new Date().toISOString() // Use current timestamp if not closed
+      order.eventByOrderLastUpdatedEventId?.blockByBlockId.timestamp || new Date().toISOString()
     );
     const dpr = calculateDPR(earnedFees, orderValue, duration);
     const mpr = calculateMPR(dpr);
@@ -52,8 +53,13 @@ const OrderTable = () => {
     };
   });
 
+  // Apply status filter
+  const filteredData = statusFilter
+    ? extendedData.filter((order: any) => order.status.toLowerCase() === statusFilter.toLowerCase())
+    : extendedData;
+
   // Sorting logic
-  const sortedData = [...extendedData];
+  const sortedData = [...filteredData];
   if (sortConfig !== null) {
     sortedData.sort((a: any, b: any) => {
       const aValue = a[sortConfig.key];
@@ -92,15 +98,43 @@ const OrderTable = () => {
     setCurrentPage(page);
   };
 
+  // Copy to clipboard handler
+  const handleCopy = (id: string) => {
+    navigator.clipboard.writeText(id);
+    alert(`Copied ID: ${id}`);
+  };
+
   return (
     <div className="p-6 bg-gray-900 min-h-screen text-white">
+      {/* Filter */}
+      <div className="mb-4 flex items-center gap-4">
+        <button
+          onClick={() => setStatusFilter(null)}
+          className={`px-4 py-2 rounded ${statusFilter === null ? 'bg-blue-600' : 'bg-gray-700 hover:bg-blue-900'}`}
+        >
+          All
+        </button>
+        <button
+          onClick={() => setStatusFilter('OPEN')}
+          className={`px-4 py-2 rounded ${statusFilter === 'OPEN' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-blue-900'}`}
+        >
+          Open
+        </button>
+        <button
+          onClick={() => setStatusFilter('CLOSED')}
+          className={`px-4 py-2 rounded ${statusFilter === 'CLOSED' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-blue-900'}`}
+        >
+          Closed
+        </button>
+      </div>
+
       {/* Table */}
       <div className="overflow-x-auto bg-gray-800 shadow-lg rounded-lg border border-gray-700">
         <table className="min-w-full text-sm">
           <thead className="bg-blue-950 text-white uppercase">
             <tr>
-              <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('index')}>
-                # {sortConfig?.key === 'index' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
+              <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('status')}>
+                Status {sortConfig?.key === 'status' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
               </th>
               <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('nodeId')}>
                 ID {sortConfig?.key === 'nodeId' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
@@ -138,13 +172,19 @@ const OrderTable = () => {
               const quoteAmount = (parseFloat(order.quoteAmount || 0) / 1e6).toFixed(6);
               const lowerPrice = calculatePriceFromTick(order.lowerTick);
               const upperPrice = calculatePriceFromTick(order.upperTick);
+              const shortenedId = `${order.nodeId.slice(0, 3)}...${order.nodeId.slice(-3)}`;
               return (
                 <tr
                   key={order.nodeId}
                   className={`${index % 2 === 0 ? 'bg-gray-700' : 'bg-gray-800'} hover:bg-blue-800 transition-colors duration-200`}
                 >
-                  <td className="border border-gray-700 p-4">{index + 1}</td>
-                  <td className="border border-gray-700 p-4">{order.nodeId}</td>
+                  <td className="border border-gray-700 p-4">{order.status}</td>
+                  <td
+                    className="border border-gray-700 p-4 cursor-pointer text-blue-500 hover:underline"
+                    onClick={() => handleCopy(order.nodeId)}
+                  >
+                    {shortenedId}
+                  </td>
                   <td className="border border-gray-700 p-4">{order.orderType || 'N/A'}</td>
                   <td className="border border-gray-700 p-4">
                     <div>{`${baseAmount} ${order.baseAsset || 'N/A'}`}</div>
