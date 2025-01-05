@@ -9,6 +9,7 @@ import {
   calculateMPR,
   calculateAPR,
   calculatePriceFromTick,
+  calculateOrderValue,
 } from '@/utils/calculateMetrics';
 import { mockOrders } from './mockData';
 
@@ -21,7 +22,7 @@ const OrderTable = () => {
   // Extend the data with dynamically computed fields for sorting
   const extendedData = mockOrders.map((order: any) => {
     const earnedFees = calculateTotalFees(order);
-    const orderValue = parseFloat(order.quoteAmount) / 1e6; // Convert to proper units
+    const orderValue = calculateOrderValue(order); // Compute USD value
     const daysPassed = calculateDaysPassed(order.eventByOrderCreatedEventId.blockByBlockId.timestamp);
     const dpr = calculateDPR(earnedFees, orderValue, daysPassed);
     const mpr = calculateMPR(dpr);
@@ -86,7 +87,7 @@ const OrderTable = () => {
           <thead className="bg-blue-950 text-white uppercase">
             <tr>
               <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('nodeId')}>
-                id {sortConfig?.key === 'nodeId' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
+                ID {sortConfig?.key === 'nodeId' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
               </th>
               <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('orderType')}>
                 Type {sortConfig?.key === 'orderType' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
@@ -126,7 +127,7 @@ const OrderTable = () => {
                   key={order.nodeId}
                   className={`${index % 2 === 0 ? 'bg-gray-700' : 'bg-gray-800'} hover:bg-blue-800 transition-colors duration-200`}
                 >
-                  <td className="border border-gray-700 p-4">{order.nodeId} </td>
+                  <td className="border border-gray-700 p-4">{order.nodeId}</td>
                   <td className="border border-gray-700 p-4">{order.orderType || 'N/A'}</td>
                   <td className="border border-gray-700 p-4">
                     <div>{`${baseAmount} ${order.baseAsset || 'N/A'}`}</div>
