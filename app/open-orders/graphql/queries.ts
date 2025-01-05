@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 export const ALL_POOL_ORDERS = gql`
 query AllPoolOrders {
     allPoolOrders(
-        condition: { status: OPEN, orderType: RANGE }
+        condition: { orderType: RANGE }
         orderBy: ORDER_CREATED_EVENT_ID_DESC
     ) {
         totalCount
@@ -31,7 +31,15 @@ query AllPoolOrders {
                     timestamp
                 }
             }
+            eventByOrderLastUpdatedEventId {
+                blockByBlockId {
+                    timestamp
+                }
+            }
+            orderId
+            id
         }
     }
 }
+
 `;

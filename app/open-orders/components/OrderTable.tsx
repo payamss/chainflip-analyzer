@@ -2,29 +2,42 @@
 'use client';
 
 import { useState } from 'react';
+import { useQuery } from '@apollo/client';
+import { ALL_POOL_ORDERS } from '@/app/open-orders/graphql/queries';
+import client from '@/app/open-orders/graphql/client';
 import {
   calculateTotalFees,
-  calculateDaysPassed,
+  calculateDuration,
   calculateDPR,
   calculateMPR,
   calculateAPR,
   calculatePriceFromTick,
   calculateOrderValue,
 } from '@/utils/calculateMetrics';
-import { mockOrders } from './mockData';
 
-const ITEMS_PER_PAGE = 15;
+const ITEMS_PER_PAGE = 50;
 
 const OrderTable = () => {
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
 
+  // Fetch data using Apollo Client
+  const { loading, error, data } = useQuery(ALL_POOL_ORDERS, { client });
+
+  if (loading) return <div className="text-white">Loading...</div>;
+  if (error) return <div className="text-red-500">Error: {error.message}</div>;
+
+  const rawOrders = data?.allPoolOrders?.nodes || [];
+
   // Extend the data with dynamically computed fields for sorting
-  const extendedData = mockOrders.map((order: any) => {
+  const extendedData = rawOrders.map((order: any) => {
     const earnedFees = calculateTotalFees(order);
     const orderValue = calculateOrderValue(order); // Compute USD value
-    const daysPassed = calculateDaysPassed(order.eventByOrderCreatedEventId.blockByBlockId.timestamp);
-    const dpr = calculateDPR(earnedFees, orderValue, daysPassed);
+    const duration = calculateDuration(
+      order.eventByOrderCreatedEventId.blockByBlockId.timestamp,
+      order.eventByOrderLastUpdatedEventId?.blockByBlockId.timestamp || new Date().toISOString() // Use current timestamp if not closed
+    );
+    const dpr = calculateDPR(earnedFees, orderValue, duration);
     const mpr = calculateMPR(dpr);
     const apr = calculateAPR(dpr);
 
@@ -32,7 +45,7 @@ const OrderTable = () => {
       ...order,
       earnedFees,
       orderValue,
-      daysPassed,
+      duration,
       dpr,
       mpr,
       apr,
@@ -86,6 +99,9 @@ const OrderTable = () => {
         <table className="min-w-full text-sm">
           <thead className="bg-blue-950 text-white uppercase">
             <tr>
+              <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('index')}>
+                # {sortConfig?.key === 'index' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
+              </th>
               <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('nodeId')}>
                 ID {sortConfig?.key === 'nodeId' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
               </th>
@@ -102,8 +118,8 @@ const OrderTable = () => {
               <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('earnedFees')}>
                 Earned Fees {sortConfig?.key === 'earnedFees' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
               </th>
-              <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('daysPassed')}>
-                Duration (Days) {sortConfig?.key === 'daysPassed' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
+              <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('duration')}>
+                Duration (Days) {sortConfig?.key === 'duration' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
               </th>
               <th className="border border-gray-700 p-4 text-left cursor-pointer" onClick={() => handleSort('dpr')}>
                 DPR {sortConfig?.key === 'dpr' ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
@@ -127,6 +143,7 @@ const OrderTable = () => {
                   key={order.nodeId}
                   className={`${index % 2 === 0 ? 'bg-gray-700' : 'bg-gray-800'} hover:bg-blue-800 transition-colors duration-200`}
                 >
+                  <td className="border border-gray-700 p-4">{index + 1}</td>
                   <td className="border border-gray-700 p-4">{order.nodeId}</td>
                   <td className="border border-gray-700 p-4">{order.orderType || 'N/A'}</td>
                   <td className="border border-gray-700 p-4">
@@ -139,7 +156,7 @@ const OrderTable = () => {
                     <div>{`Upper: ${upperPrice.toFixed(6)}`}</div>
                   </td>
                   <td className="border border-gray-700 p-4">${order.earnedFees.toFixed(6)}</td>
-                  <td className="border border-gray-700 p-4">{order.daysPassed} days</td>
+                  <td className="border border-gray-700 p-4">{order.duration} days</td>
                   <td className="border border-gray-700 p-4">{order.dpr}%</td>
                   <td className="border border-gray-700 p-4">{order.mpr}%</td>
                   <td className="border border-gray-700 p-4">{order.apr}%</td>

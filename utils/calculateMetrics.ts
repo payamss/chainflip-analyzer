@@ -1,13 +1,12 @@
 import { tokenPrices } from "@/app/open-orders/components/tokenPrices";
 
-
 /**
- * Calculates the number of days passed since the order was created.
+ * Calculates the number of days between two timestamps.
  */
-export function calculateDaysPassed(createdDate: string): number {
-  const created = new Date(createdDate); // Parse ISO 8601 date string
-  const now = new Date();
-  const diffTime = now.getTime() - created.getTime();
+export function calculateDuration(startTimestamp: string, endTimestamp: string): number {
+  const startDate = new Date(startTimestamp);
+  const endDate = new Date(endTimestamp);
+  const diffTime = endDate.getTime() - startDate.getTime();
   const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
   return Math.max(days, 0); // Ensure non-negative value
 }
@@ -24,11 +23,11 @@ export function calculateTotalFees(order: { quoteCollectedFeesUsd: string; baseC
 /**
  * Calculates Daily Percentage Rate (DPR).
  */
-export function calculateDPR(totalFees: number, orderValue: number, daysPassed: number): number {
-  if (totalFees <= 0 || orderValue <= 0 || daysPassed <= 0) {
+export function calculateDPR(totalFees: number, orderValue: number, duration: number): number {
+  if (totalFees <= 0 || orderValue <= 0 || duration <= 0) {
     return 0; // Handle invalid inputs
   }
-  const dpr = (totalFees / (orderValue * daysPassed)) * 100;
+  const dpr = (totalFees / (orderValue * duration)) * 100;
   return +dpr.toFixed(2); // Return percentage with 2 decimal places
 }
 
@@ -53,7 +52,6 @@ export const calculatePriceFromTick = (tick: number): number => {
   return Math.pow(1.0001, tick);
 };
 
-
 // Token Map for Asset Symbols to Addresses
 const tokenMap: { [key: string]: { address: string; chainId: string } } = {
   BTC: { address: "0x0000000000000000000000000000000000000000", chainId: "btc" },
@@ -67,7 +65,6 @@ const tokenMap: { [key: string]: { address: string; chainId: string } } = {
   DOT: { address: "0x0000000000000000000000000000000000000000", chainId: "dot" },
   Flip: { address: "0x826180541412D574cf1336d22c0C0a287822678A", chainId: "evm-1" },
 };
-
 
 /**
  * Fetches the USD price for a given token based on its name.
@@ -93,6 +90,7 @@ export function getUsdPriceForToken(tokenName: string): number {
 
   return tokenPriceData.usdPrice;
 }
+
 /**
  * Calculates the total value in USD for an order.
  */
