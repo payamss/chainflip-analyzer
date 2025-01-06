@@ -32,8 +32,6 @@ export const processOrdersData = (
 
   // Extend orders with calculated fields
   const extendedData = rawOrders.map((order: any) => {
-      console.log('startTime', order.eventByOrderCreatedEventId.blockByBlockId.timestamp)
-      console.log('stopTime', order.eventByOrderLastUpdatedEventId?.blockByBlockId.timestamp)
     const earnedFees = calculateTotalFees(order);
     const orderValue = calculateOrderValue(order);
     const duration = calculateDuration(

@@ -61,7 +61,7 @@ const TableBody = ({ currentItems }: { currentItems: any[] }) => {
         const quoteIcons = getAssetIcon(order.quoteAsset || '');
 
         return (
-          <tr key={`${order.apr}-${index}`} className="even:bg-accent odd:bg-secondary text-center">
+          <tr key={`${order.apr}-${index}`} className="even:bg-accent odd:bg-secondary text-center items-center">
             <td className="p-4">{order.status}</td>
             <td
               className="p-4 text-primary hover:underline cursor-pointer"
@@ -71,9 +71,9 @@ const TableBody = ({ currentItems }: { currentItems: any[] }) => {
             </td>
             <td className="p-4">{order.orderType || 'N/A'}</td>
             <td className="p-4">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-4" >
                 {baseIcons.assetIcon && (
-                  <div className="relative inline-block w-8 h-8">
+                  <div className="relative inline-block w-8 h-8 ">
                     <Image
                       src={baseIcons.assetIcon}
                       alt={order.baseAsset}
@@ -94,7 +94,7 @@ const TableBody = ({ currentItems }: { currentItems: any[] }) => {
                 )}
                 <span>{baseAmount}</span>
               </div>
-              <div className="flex items-center gap-2 mt-1">
+              <div className="flex items-center gap-4 mt-2">
                 {quoteIcons.assetIcon && (
                   <div className="relative inline-block">
                     <Image
