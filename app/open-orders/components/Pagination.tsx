@@ -14,17 +14,18 @@ const Pagination = ({
       <button
         disabled={currentPage === 0}
         onClick={() => onPageChange(currentPage - 1)}
-        className={`px-4 py-2 rounded ${currentPage === 0 ? 'bg-gray-700 cursor-not-allowed' : 'bg-blue-900 hover:bg-blue-950'}`}
+        className={`px-4 py-2 rounded-lg ${currentPage === 0 ? 'bg-accent text-gray-500 cursor-not-allowed' : 'bg-secondary text-white hover:bg-gray-800'
+          }`}
       >
         Previous
       </button>
-      <span className="text-sm">
+      <span className="text-sm text-textGray">
         Page {currentPage + 1} of {totalPages}
       </span>
       <button
         disabled={currentPage === totalPages - 1}
         onClick={() => onPageChange(currentPage + 1)}
-        className={`px-4 py-2 rounded ${currentPage === totalPages - 1 ? 'bg-gray-700 cursor-not-allowed' : 'bg-blue-900 hover:bg-blue-950'
+        className={`px-4 py-2 rounded-lg ${currentPage === totalPages - 1 ? 'bg-accent text-gray-500 cursor-not-allowed' : 'bg-secondary text-white hover:bg-gray-800'
           }`}
       >
         Next

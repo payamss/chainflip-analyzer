@@ -3,6 +3,26 @@
 @tailwind utilities;
 
 body {
-    background-color: #111827;
+  background-color: #0d0d0d; /* Dark background like Chainflip */
+  font-family: 'Inter', sans-serif; /* Use a clean font */
+  color: #cdcdcd;
+  height: 100vh;
+    justify-content: center;
+  align-items: center;
 }
 
+table {
+  border-collapse: collapse;
+}
+
+.welcome-container {
+  border: 2px solid #ff1050;
+  padding: 20px;
+  width: 50%;
+    justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #0d0d0d;
+}

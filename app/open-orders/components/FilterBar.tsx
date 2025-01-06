@@ -8,22 +8,22 @@ const FilterBar = ({
   setStatusFilter: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
   return (
-    <div className="mb-4 flex items-center gap-4 justify-center text-center">
+    <div className="mb-4 flex items-center justify-center text-center">
       <button
         onClick={() => setStatusFilter(null)}
-        className={`px-4 py-2 rounded ${statusFilter === null ? 'bg-blue-600' : 'bg-gray-700 hover:bg-blue-900'}`}
+        className={`px-8 py-2 rounded-l-3xl  ${statusFilter === null ? 'bg-gray-900' : 'bg-gray-700 hover:bg-gray-900'}`}
       >
         All
       </button>
       <button
         onClick={() => setStatusFilter('OPEN')}
-        className={`px-4 py-2 rounded ${statusFilter === 'OPEN' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-blue-900'}`}
+        className={`px-8 py-2  ${statusFilter === 'OPEN' ? 'bg-gray-900' : 'bg-gray-700 hover:bg-gray-900'}`}
       >
         Open
       </button>
       <button
         onClick={() => setStatusFilter('CLOSED')}
-        className={`px-4 py-2 rounded ${statusFilter === 'CLOSED' ? 'bg-blue-600' : 'bg-gray-700 hover:bg-blue-900'}`}
+        className={`px-8 py-2 rounded-r-3xl ${statusFilter === 'CLOSED' ? 'bg-gray-900' : 'bg-gray-700 hover:bg-gray-900'}`}
       >
         Closed
       </button>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaSortUp, FaSortDown } from 'react-icons/fa';
 
 const TableHeader = ({
   sortConfig,
@@ -11,13 +12,13 @@ const TableHeader = ({
     if (sortConfig && sortConfig.key === key) {
       setSortConfig({ key, direction: sortConfig.direction === 'asc' ? 'desc' : 'asc' });
     } else {
-      setSortConfig({ key, direction: 'asc' });
+      setSortConfig({ key, direction: 'desc' });
     }
   };
 
   const columns = [
     { key: 'status', label: 'Status' },
-    { key: 'accountId', label: 'Id' },
+    { key: 'accountId', label: 'ID' },
     { key: 'orderType', label: 'Type' },
     { key: 'baseAmount', label: 'Assets / Amount' },
     { key: 'orderValue', label: 'Value' },
@@ -30,18 +31,21 @@ const TableHeader = ({
   ];
 
   return (
-    <thead className="bg-blue-950 text-white uppercase">
+    <thead className="bg-gray-950 text-white uppercase">
       <tr>
         {columns.map((col) => (
           <th
             key={col.key}
-            className="border border-gray-700 p-4 text-left cursor-pointer"
+            className="border border-accent p-4 cursor-pointer text-center"
             onClick={() => handleSort(col.key)}
           >
-            {col.label} {sortConfig?.key === col.key ? (sortConfig.direction === 'asc' ? '🔼' : '🔽') : ''}
+            <div className="flex items-center justify-center">
+              {col.label}{sortConfig?.key === col.key && (sortConfig.direction === 'asc' ? <FaSortUp /> : <FaSortDown />)}
+
+            </div>
           </th>
         ))}
-        <th className="border border-gray-700 p-4 text-left">Account Link</th>
+        <th className="border border-accent p-4 text-center">Account Link</th>
       </tr>
     </thead>
   );

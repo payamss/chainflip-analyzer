@@ -10,8 +10,7 @@ import TableBody from './TableBody';
 import TableHeader from './TableHeader';
 import { processOrdersData } from '@/utils/dataProcessing';
 
-
-const ITEMS_PER_PAGE = 50;
+const ITEMS_PER_PAGE = 15;
 
 const OrderTable = () => {
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
@@ -22,9 +21,9 @@ const OrderTable = () => {
   const { loading: ordersLoading, error: ordersError, data: ordersData } = useQuery(ALL_POOL_ORDERS, { client });
   const { loading: accountsLoading, error: accountsError, data: accountsData } = useQuery(ALL_ACCOUNTS, { client });
 
-  if (ordersLoading || accountsLoading) return <div className="text-white">Loading...</div>;
+  if (ordersLoading || accountsLoading) return <div className="text-textLight">Loading...</div>;
   if (ordersError || accountsError)
-    return <div className="text-red-500">Error: {ordersError?.message || accountsError?.message}</div>;
+    return <div className="text-danger">Error: {ordersError?.message || accountsError?.message}</div>;
 
   const rawOrders = ordersData?.allPoolOrders?.nodes || [];
   const rawAccounts = accountsData?.allAccounts?.nodes || [];
@@ -37,19 +36,15 @@ const OrderTable = () => {
   const currentItems = processedData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
-    <div className="p-6 bg-gray-900 min-h-screen text-white">
+    <div className="p-6 min-h-screen text-textLight">
       <FilterBar statusFilter={statusFilter} setStatusFilter={setStatusFilter} />
-      <div className="overflow-x-auto bg-gray-800 shadow-lg rounded-lg border border-gray-700">
-        <table className="min-w-full text-sm overflow-auto">
+      <div className="overflow-x-auto bg-secondary shadow-lg rounded-lg border border-accent">
+        <table className="min-w-full text-sm">
           <TableHeader sortConfig={sortConfig} setSortConfig={setSortConfig} />
           <TableBody currentItems={currentItems} />
         </table>
       </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
+      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
     </div>
   );
 };
