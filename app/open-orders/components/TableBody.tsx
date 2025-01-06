@@ -1,12 +1,49 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { calculateCorrectAmount, calculatePriceFromTick } from '@/utils/calculateMetrics';
-
+import Image from 'next/image';
 const TableBody = ({ currentItems }: { currentItems: any[] }) => {
   const handleCopy = (id: string) => {
     navigator.clipboard.writeText(id);
     alert(`Copied ID: ${id}`);
   };
+
+  // Memoization helper
+  const useAssetIconCache = () => {
+    const cache = useMemo(() => new Map<string, { assetIcon: string; chainIcon: string | null }>(), []);
+
+    return (asset: string) => {
+      if (!cache.has(asset)) {
+        const lowerAsset = asset.toLowerCase();
+        console.log('Processing asset:', lowerAsset);
+
+        // Match for chain prefixes (arb, sol, dot, eth, btc)
+        const chainMatch = lowerAsset.match(/(arb|sol|dot|eth|btc)/);
+        const chain = chainMatch ? chainMatch[0] : null;
+
+        // Extract main asset without chain prefix
+        let mainAsset = lowerAsset.replace(/(arb|sol|dot|eth|btc)/, '').trim();
+
+        // Handle cases where the asset matches the chain (e.g., sol -> sol, eth -> eth)
+        if (!mainAsset) {
+          mainAsset = chain ? chain : 'default'; // Default fallback if no asset name is provided
+        }
+
+        // Determine icons
+        const assetIcon = `/icons/${mainAsset}.svg`;
+        const chainIcon = chain ? `/icons/${chain}-chain.svg` : `/icons/eth-chain.svg`; // Use `-chain` for chains
+
+        // Save in cache
+        cache.set(asset, { assetIcon, chainIcon });
+      }
+      return cache.get(asset)!;
+    };
+  };
+
+
+
+
+  const getAssetIcon = useAssetIconCache();
 
   return (
     <tbody>
@@ -20,6 +57,9 @@ const TableBody = ({ currentItems }: { currentItems: any[] }) => {
           ? `https://lp.chainflip.io/orders?accountId=${order.accountId}`
           : null;
 
+        const baseIcons = getAssetIcon(order.baseAsset || '');
+        const quoteIcons = getAssetIcon(order.quoteAsset || '');
+
         return (
           <tr key={`${order.apr}-${index}`} className="even:bg-accent odd:bg-secondary text-center">
             <td className="p-4">{order.status}</td>
@@ -31,8 +71,52 @@ const TableBody = ({ currentItems }: { currentItems: any[] }) => {
             </td>
             <td className="p-4">{order.orderType || 'N/A'}</td>
             <td className="p-4">
-              <div>{`${baseAmount} ${order.baseAsset || 'N/A'}`}</div>
-              <div>{`${quoteAmount} ${order.quoteAsset || 'N/A'}`}</div>
+              <div className="flex items-center gap-2">
+                {baseIcons.assetIcon && (
+                  <div className="relative inline-block w-8 h-8">
+                    <Image
+                      src={baseIcons.assetIcon}
+                      alt={order.baseAsset}
+                      className="inline-block w-8 h-8"
+                      width={32}
+                      height={32}
+                    />
+                    {baseIcons.chainIcon && (
+                      <Image
+                        src={baseIcons.chainIcon}
+                        alt={`${order.baseAsset}-chain`}
+                        className="absolute -bottom-1 -right-2 w-5 h-5 bg-secondary rounded-full"
+                        width={12}
+                        height={12}
+                      />
+                    )}
+                  </div>
+                )}
+                <span>{baseAmount}</span>
+              </div>
+              <div className="flex items-center gap-2 mt-1">
+                {quoteIcons.assetIcon && (
+                  <div className="relative inline-block">
+                    <Image
+                      src={quoteIcons.assetIcon}
+                      alt={order.quoteAsset}
+                      className="inline-block w-8 h-8"
+                      width={32}
+                      height={32}
+                    />
+                    {quoteIcons.chainIcon && (
+                      <Image
+                        src={quoteIcons.chainIcon}
+                        alt={`${order.quoteAsset}-chain`}
+                        className="absolute -bottom-1 -right-2 w-5 h-5 bg-secondary rounded-full"
+                        width={12}
+                        height={12}
+                      />
+                    )}
+                  </div>
+                )}
+                <span>{quoteAmount}</span>
+              </div>
             </td>
             <td className="p-4">${order.orderValue.toFixed(2)}</td>
             <td className="p-4">

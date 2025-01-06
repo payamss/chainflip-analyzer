@@ -1,0 +1,59 @@
+<svg width="9" height="9"
+                                viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                position="left-[12px] top-[13px]">
+                                <g filter="url(#filter0_i_3271_157005)">
+                                  <rect width="16" height="16" rx="8" fill="url(#paint0_linear_3271_157005)"></rect>
+                                  <rect width="16" height="16" rx="8" fill="url(#paint1_radial_3271_157005)"
+                                    fill-opacity="0.15"></rect>
+                                </g>
+                                <path
+                                  d="M2.58252 5.40896V10.5919C2.58252 10.9251 2.75705 11.2266 3.04793 11.3958L7.53808 13.9873C7.82367 14.1513 8.17802 14.1513 8.46361 13.9873L12.9538 11.3958C13.2393 11.2319 13.4192 10.9251 13.4192 10.5919V5.40896C13.4192 5.07577 13.2446 4.77432 12.9538 4.60508L8.46361 2.01359C8.17802 1.84964 7.82367 1.84964 7.53808 2.01359L3.04793 4.60508C2.76234 4.76903 2.58781 5.07577 2.58781 5.40896H2.58252Z"
+                                  fill="#213147"></path>
+                                <path
+                                  d="M8.97703 9.00548L8.33709 10.7613C8.32123 10.8089 8.32123 10.8618 8.33709 10.9147L9.43715 13.9346L10.7117 13.1995L9.18329 9.00548C9.14627 8.91028 9.01405 8.91028 8.97703 9.00548Z"
+                                  fill="#12AAFF"></path>
+                                <path
+                                  d="M10.2624 6.0548C10.2254 5.9596 10.0932 5.9596 10.0561 6.0548L9.4162 7.81066C9.40033 7.85826 9.40033 7.91115 9.4162 7.96404L11.2197 12.909L12.4942 12.1739L10.2624 6.06009V6.0548Z"
+                                  fill="#12AAFF"></path>
+                                <path
+                                  d="M7.99812 2.20892C8.02985 2.20892 8.06158 2.21949 8.08803 2.23536L12.9431 5.0384C13.0013 5.07013 13.033 5.13359 13.033 5.19706V10.8031C13.033 10.8666 12.996 10.9301 12.9431 10.9618L8.08803 13.7648C8.06158 13.7807 8.02985 13.7913 7.99812 13.7913C7.96638 13.7913 7.93465 13.7807 7.90821 13.7648L3.05314 10.9618C2.99496 10.9301 2.96323 10.8666 2.96323 10.8031V5.19177C2.96323 5.12831 3.00025 5.06484 3.05314 5.03311L7.90821 2.23007C7.93465 2.21421 7.96638 2.20363 7.99812 2.20363V2.20892ZM7.99812 1.38916C7.82359 1.38916 7.65435 1.43147 7.49569 1.52138L2.64061 4.32442C2.32858 4.50423 2.13818 4.83214 2.13818 5.19177V10.7978C2.13818 11.1575 2.32858 11.4854 2.64061 11.6652L7.49569 14.4682C7.64906 14.5581 7.82359 14.6005 7.99812 14.6005C8.17265 14.6005 8.34189 14.5581 8.50055 14.4682L13.3556 11.6652C13.6677 11.4854 13.8581 11.1575 13.8581 10.7978V5.19177C13.8581 4.83214 13.6677 4.50423 13.3556 4.32442L8.49526 1.52138C8.34189 1.43147 8.16736 1.38916 7.99283 1.38916H7.99812Z"
+                                  fill="#9DCCED"></path>
+                                <path
+                                  d="M4.78223 12.9135L5.23177 11.6865L6.13086 12.4322L5.28995 13.2044L4.78223 12.9135Z"
+                                  fill="#213147"></path>
+                                <path
+                                  d="M7.58544 4.79484H6.35316C6.26325 4.79484 6.17863 4.85302 6.1469 4.93764L3.50781 12.1726L4.7824 12.9078L7.69121 4.93764C7.71766 4.86359 7.66477 4.78955 7.59073 4.78955L7.58544 4.79484Z"
+                                  fill="white"></path>
+                                <path
+                                  d="M9.74268 4.79484H8.5104C8.42049 4.79484 8.33587 4.85302 8.30414 4.93764L5.28955 13.1987L6.56414 13.9338L9.84316 4.93764C9.86961 4.86359 9.81672 4.78955 9.74268 4.78955V4.79484Z"
+                                  fill="white"></path>
+                                <defs>
+                                  <filter id="filter0_i_3271_157005" x="0" y="0" width="16.9599" height="16.9599"
+                                    filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                    <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                    <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape">
+                                    </feBlend>
+                                    <feColorMatrix in="SourceAlpha" type="matrix"
+                                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha">
+                                    </feColorMatrix>
+                                    <feOffset dx="0.959909" dy="0.959909"></feOffset>
+                                    <feGaussianBlur stdDeviation="3.1197"></feGaussianBlur>
+                                    <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"></feComposite>
+                                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0">
+                                    </feColorMatrix>
+                                    <feBlend mode="normal" in2="shape" result="effect1_innerShadow_3271_157005">
+                                    </feBlend>
+                                  </filter>
+                                  <linearGradient id="paint0_linear_3271_157005" x1="8" y1="0" x2="8" y2="16"
+                                    gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#213147"></stop>
+                                    <stop offset="1" stop-color="#2F4664"></stop>
+                                  </linearGradient>
+                                  <radialGradient id="paint1_radial_3271_157005" cx="0" cy="0" r="1"
+                                    gradientUnits="userSpaceOnUse"
+                                    gradientTransform="translate(3.99864) rotate(45) scale(12.5706)">
+                                    <stop stop-color="#7887E6"></stop>
+                                    <stop offset="1" stop-color="white" stop-opacity="0"></stop>
+                                  </radialGradient>
+                                </defs>
+                              </svg>
