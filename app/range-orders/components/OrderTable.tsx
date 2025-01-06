@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { ALL_POOL_ORDERS, ALL_ACCOUNTS } from '@/app/open-orders/graphql/queries';
-import client from '@/app/open-orders/graphql/client';
+import { ALL_POOL_ORDERS, ALL_ACCOUNTS } from '@/app/range-orders/graphql/queries';
+import client from '@/app/range-orders/graphql/client';
 import FilterBar from './FilterBar';
 import Pagination from './Pagination';
 import TableBody from './TableBody';

@@ -69,7 +69,7 @@ const TableBody = ({ currentItems }: { currentItems: any[] }) => {
             >
               {order.accountId ? `${order.accountId.slice(0, 3)}...${order.accountId.slice(-3)}` : 'N/A'}
             </td>
-            <td className="p-4">{order.orderType || 'N/A'}</td>
+            {/* <td className="p-4">{order.orderType || 'N/A'}</td> */}
             <td className="p-4">
               <div className="flex items-center gap-4" >
                 {baseIcons.assetIcon && (

@@ -19,7 +19,7 @@ const TableHeader = ({
   const columns = [
     { key: 'status', label: 'Status' },
     { key: 'accountId', label: 'ID' },
-    { key: 'orderType', label: 'Type' },
+    // { key: 'orderType', label: 'Type' },
     { key: 'baseAmount', label: 'Assets / Amount' },
     { key: 'orderValue', label: 'Value' },
     { key: 'range', label: 'Range' },

@@ -1,4 +1,4 @@
-import { tokenPrices } from "@/app/open-orders/components/tokenPrices";
+import { tokenPrices } from "@/app/range-orders/components/tokenPrices";
 
 /**
  * Calculates the number of days between two timestamps.
