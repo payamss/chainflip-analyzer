@@ -15,7 +15,6 @@ const TableBody = ({ currentItems }: { currentItems: any[] }) => {
     return (asset: string) => {
       if (!cache.has(asset)) {
         const lowerAsset = asset.toLowerCase();
-        console.log('Processing asset:', lowerAsset);
 
         // Match for chain prefixes (arb, sol, dot, eth, btc)
         const chainMatch = lowerAsset.match(/(arb|sol|dot|eth|btc)/);
@@ -62,15 +61,14 @@ const TableBody = ({ currentItems }: { currentItems: any[] }) => {
 
         return (
           <tr key={`${order.apr}-${index}`} className="even:bg-accent odd:bg-secondary text-center items-center">
-            <td className="p-4">{order.status}</td>
+            <td className="p-2">{order.status}</td>
             <td
-              className="p-4 text-primary hover:underline cursor-pointer"
+              className="p-2 text-primary hover:underline cursor-pointer"
               onClick={() => handleCopy(order.accountId)}
             >
               {order.accountId ? `${order.accountId.slice(0, 3)}...${order.accountId.slice(-3)}` : 'N/A'}
             </td>
-            {/* <td className="p-4">{order.orderType || 'N/A'}</td> */}
-            <td className="p-4">
+            <td className="p-2">
               <div className="flex items-center gap-4" >
                 {baseIcons.assetIcon && (
                   <div className="relative inline-block w-8 h-8 ">
@@ -118,17 +116,31 @@ const TableBody = ({ currentItems }: { currentItems: any[] }) => {
                 <span>{quoteAmount}</span>
               </div>
             </td>
-            <td className="p-4">${order.orderValue.toFixed(2)}</td>
-            <td className="p-4">
-              <div>{`Lower: ${lowerPrice.toFixed(6)}`}</div>
-              <div>{`Upper: ${upperPrice.toFixed(6)}`}</div>
+            <td className="p-2">${order.orderValue.toFixed(2)}</td>
+            <td className="  p-2 justify-center items-center text-center">
+              <div className="flex items-center gap-2 justify-center">
+
+                <div className="flex-shrink-0">{`${lowerPrice.toFixed(5)}`}</div>
+                <Image
+                  src="/range.svg"
+                  alt={`${order.quoteAsset}-chain`}
+                  className="w-5 h-5"
+                  width={16}
+                  style={{
+                    filter: 'brightness(0) saturate(0) invert(60%)',
+                  }}
+                  height={16}
+                />
+                <div className="flex-shrink-0">{`${upperPrice.toFixed(5)}`}</div>
+              </div>
+
             </td>
-            <td className="p-4">${order.earnedFees.toFixed(6)}</td>
-            <td className="p-4">{order.duration} days</td>
-            <td className="p-4">{order.dpr}%</td>
-            <td className="p-4">{order.mpr}%</td>
-            <td className="p-4">{order.apr}%</td>
-            <td className="p-4 ">
+            <td className="p-2">${order.earnedFees.toFixed(6)}</td>
+            <td className="p-2">{order.duration} days</td>
+            <td className="p-2">{order.dpr}%</td>
+            <td className="p-2">{order.mpr}%</td>
+            <td className="p-2">{order.apr}%</td>
+            <td className="p-2 ">
               {accountLink ? (
                 <a
                   href={accountLink}

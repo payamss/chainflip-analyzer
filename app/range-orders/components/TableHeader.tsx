@@ -19,12 +19,11 @@ const TableHeader = ({
   const columns = [
     { key: 'status', label: 'Status' },
     { key: 'accountId', label: 'ID' },
-    // { key: 'orderType', label: 'Type' },
     { key: 'baseAmount', label: 'Assets / Amount' },
     { key: 'orderValue', label: 'Value' },
     { key: 'range', label: 'Range' },
     { key: 'earnedFees', label: 'Earned Fees' },
-    { key: 'duration', label: 'Duration (Days)' },
+    { key: 'duration', label: 'Duration' },
     { key: 'dpr', label: 'DPR' },
     { key: 'mpr', label: 'MPR' },
     { key: 'apr', label: 'APR' },
@@ -36,7 +35,7 @@ const TableHeader = ({
         {columns.map((col) => (
           <th
             key={col.key}
-            className="border border-accent p-4 cursor-pointer text-center"
+            className="border border-accent cursor-pointer text-center"
             onClick={() => handleSort(col.key)}
           >
             <div className="flex items-center justify-center">
@@ -45,7 +44,7 @@ const TableHeader = ({
             </div>
           </th>
         ))}
-        <th className="border border-accent p-4 text-center">Account Link</th>
+        <th className="border border-accent p-2 text-center">Account Link</th>
       </tr>
     </thead>
   );
