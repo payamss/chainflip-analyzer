@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 6000:3000
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
+    networks:
+      - network
+    container_name: ChainFlip-Analyzer
+networks:
+  network:
+    driver: bridge
