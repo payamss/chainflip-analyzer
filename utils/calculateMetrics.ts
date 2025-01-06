@@ -4,7 +4,7 @@ import { tokenPrices } from "@/app/open-orders/components/tokenPrices";
  * Calculates the number of days between two timestamps.
  */
 export function calculateDuration(startTimestamp: string, endTimestamp: string): number {
-  
+
   const startDate = new Date(startTimestamp);
   const endDate = new Date(endTimestamp);
   const diffTime = endDate.getTime() - startDate.getTime();
@@ -115,7 +115,7 @@ export const calculateCorrectAmount = (
   // Define precision mapping for each asset
   const precisionMap: Record<string, number> = {
     btc: 1e8,       // Bitcoin precision
-    usdc: 1,      // USD Coin precision
+    usdc: 1e6,      // USD Coin precision
     arbusdc: 1e6,   // Arbitrum USD Coin precision
     solusdc: 1e6,   // Solana USD Coin precision
     arbeth: 1e18,   // Arbitrum Ethereum precision
@@ -130,8 +130,9 @@ export const calculateCorrectAmount = (
   // Get the precision for the given asset; default to 1e18 if not found
   const precision = precisionMap[asset.toLowerCase()] || 1e18;
 
-  // Parse the amount and divide by precision, then return the fixed value
+  // Parse the amount and divide by precision
   const correctedAmount = parseFloat(amount.toString()) / precision;
 
-  return correctedAmount.toFixed(6); // Fix to 6 decimal places
+  // Return the formatted value without unnecessary trailing zeros
+  return parseFloat(correctedAmount.toFixed(18)).toString();
 };
