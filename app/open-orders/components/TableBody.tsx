@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { calculatePriceFromTick } from '@/utils/calculateMetrics';
+import { calculateCorrectAmount, calculatePriceFromTick } from '@/utils/calculateMetrics';
 
 const TableBody = ({ currentItems }: { currentItems: any[] }) => {
   const handleCopy = (id: string) => {
@@ -11,8 +11,9 @@ const TableBody = ({ currentItems }: { currentItems: any[] }) => {
   return (
     <tbody>
       {currentItems.map((order, index) => {
-        const baseAmount = (parseFloat(order.baseAmount || 0) / 1e18).toFixed(6);
-        const quoteAmount = (parseFloat(order.quoteAmount || 0) / 1e6).toFixed(6);
+        const baseAmount = calculateCorrectAmount(order.baseAmount, order.baseAsset);
+        const quoteAmount = calculateCorrectAmount(order.quoteAmount, order.quoteAsset);
+
         const lowerPrice = calculatePriceFromTick(order.lowerTick);
         const upperPrice = calculatePriceFromTick(order.upperTick);
         const accountLink = order.accountId
