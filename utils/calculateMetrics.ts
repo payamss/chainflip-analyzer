@@ -101,5 +101,5 @@ export const calculateCorrectAmount = (
   // Parse the amount and divide by precision
   const correctedAmount = parseFloat(amount.toString()) / precision;
   // Return the formatted value without unnecessary trailing zeros
-  return parseFloat(correctedAmount.toFixed(18));
+  return parseFloat(correctedAmount.toFixed(8));
 };
