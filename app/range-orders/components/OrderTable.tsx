@@ -23,12 +23,12 @@ const OrderTable = () => {
   const { loading: accountsLoading, error: accountsError, data: accountsData } = useQuery(ALL_ACCOUNTS, { client });
   const { data: allTokenPrices, loading, error } = useTokenPrices();
 
-  if (loading) return <div className="text-textLight">Loading...</div>;
-  if (error) return <div className="text-danger">Error: {error.message}</div>;
+  if (loading) return <div className="text-textLight text-center">Loading...</div>;
+  if (error) return <div className="text-danger text-center">Error: {error.message}</div>;
 
-  if (ordersLoading || accountsLoading) return <div className="text-textLight">Loading...</div>;
+  if (ordersLoading || accountsLoading) return <div className="text-textLight text-center">Loading...</div>;
   if (ordersError || accountsError)
-    return <div className="text-danger">Error: {ordersError?.message || accountsError?.message}</div>;
+    return <div className="text-danger text-center">Error: {ordersError?.message || accountsError?.message}</div>;
 
   const rawOrders = ordersData?.allPoolOrders?.nodes || [];
   const rawAccounts = accountsData?.allAccounts?.nodes || [];
@@ -41,15 +41,24 @@ const OrderTable = () => {
   const currentItems = processedData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
-    <div className="p-2 min-h-screen text-textLight">
-      <FilterBar statusFilter={statusFilter} setStatusFilter={setStatusFilter} />
+    <div className="p-2 sm:p-6 lg:p-8 min-h-screen text-textLight">
+      {/* FilterBar */}
+      <div className="mb-4">
+        <FilterBar statusFilter={statusFilter} setStatusFilter={setStatusFilter} />
+      </div>
+
+      {/* Table */}
       <div className="overflow-x-auto bg-secondary shadow-lg rounded-lg border border-accent">
-        <table className="min-w-full text-sm">
+        <table className="min-w-full text-xs sm:text-sm md:text-base">
           <TableHeader sortConfig={sortConfig} setSortConfig={setSortConfig} />
           <TableBody currentItems={currentItems} />
         </table>
       </div>
-      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+
+      {/* Pagination */}
+      <div className="mt-4 flex flex-col items-center gap-2 sm:gap-4">
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+      </div>
     </div>
   );
 };
