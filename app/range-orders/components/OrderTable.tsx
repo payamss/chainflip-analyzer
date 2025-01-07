@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { ALL_POOL_ORDERS, ALL_ACCOUNTS } from '@/app/open-orders/graphql/queries';
-import client from '@/app/open-orders/graphql/client';
+import { ALL_POOL_ORDERS, ALL_ACCOUNTS } from '@/app/range-orders/graphql/queries';
+import client from '@/app/range-orders/graphql/client';
 import FilterBar from './FilterBar';
 import Pagination from './Pagination';
 import TableBody from './TableBody';
 import TableHeader from './TableHeader';
 import { processOrdersData } from '@/utils/dataProcessing';
+import { useTokenPrices } from '@/app/hooks/useTokenPrices';
 
 const ITEMS_PER_PAGE = 15;
 
@@ -20,6 +21,10 @@ const OrderTable = () => {
   // Fetch data
   const { loading: ordersLoading, error: ordersError, data: ordersData } = useQuery(ALL_POOL_ORDERS, { client });
   const { loading: accountsLoading, error: accountsError, data: accountsData } = useQuery(ALL_ACCOUNTS, { client });
+  const { data: allTokenPrices, loading, error } = useTokenPrices();
+
+  if (loading) return <div className="text-textLight">Loading...</div>;
+  if (error) return <div className="text-danger">Error: {error.message}</div>;
 
   if (ordersLoading || accountsLoading) return <div className="text-textLight">Loading...</div>;
   if (ordersError || accountsError)
@@ -27,7 +32,7 @@ const OrderTable = () => {
 
   const rawOrders = ordersData?.allPoolOrders?.nodes || [];
   const rawAccounts = accountsData?.allAccounts?.nodes || [];
-  const processedData = processOrdersData(rawOrders, rawAccounts, statusFilter, sortConfig);
+  const processedData = processOrdersData(rawOrders, rawAccounts, statusFilter, sortConfig, allTokenPrices);
 
   // Pagination
   const totalItems = processedData.length;

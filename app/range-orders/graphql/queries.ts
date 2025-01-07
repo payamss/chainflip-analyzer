@@ -49,3 +49,14 @@ export const ALL_ACCOUNTS = gql`
     }
   }
 `;
+
+
+export const GET_TOKEN_PRICES = gql`
+  query GetTokenPrices($tokens: [PriceQueryInput!]!) {
+    tokenPrices: getTokenPrices(input: $tokens) {
+      chainId
+      address
+      usdPrice
+    }
+  }
+`;

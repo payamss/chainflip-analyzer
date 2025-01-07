@@ -20,7 +20,8 @@ export const processOrdersData = (
   rawOrders: any[],
   rawAccounts: any[],
   statusFilter: string | null,
-  sortConfig: { key: string; direction: 'asc' | 'desc' } | null
+  sortConfig: { key: string; direction: 'asc' | 'desc' } | null,
+  allTokenPrices: { [key: string]: number }
 ) => {
   // Map liquidityProviderId to idSs58
   const accountMap = rawAccounts.reduce((acc: any, account: any) => {
@@ -33,7 +34,7 @@ export const processOrdersData = (
   // Extend orders with calculated fields
   const extendedData = rawOrders.map((order: any) => {
     const earnedFees = calculateTotalFees(order);
-    const orderValue = calculateOrderValue(order);
+    const orderValue = calculateOrderValue(order,allTokenPrices);
     const duration = calculateDuration(
       order.eventByOrderCreatedEventId.blockByBlockId.timestamp,
       order.eventByOrderLastUpdatedEventId?.blockByBlockId.timestamp || new Date().toISOString()
