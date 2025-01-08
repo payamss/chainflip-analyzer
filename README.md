@@ -12,7 +12,8 @@ Chainflip Analyzer is a web application that provides detailed analysis and insi
 - Provides a detailed view of pool orders with relevant metrics
 
 ## Documentation
-
+ [**Demo**](https://cfa.shariat.de): you can see the real-time data on my website
+ 
 For detailed calculation logic and methodologies, refer to the following files:
 
 - [Liquidity Pool Metrics Logic](./app/docs/range-order-calculation.md): Explains the logic of range order calculation APR, DPR, MPR, etc.
