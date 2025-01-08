@@ -4,7 +4,6 @@
  * Calculates the number of days between two timestamps.
  */
 export function calculateDuration(startTimestamp: string, endTimestamp: string): number {
-
   const startDate = new Date(startTimestamp);
   const endDate = new Date(endTimestamp);
   const diffTime = endDate.getTime() - startDate.getTime();
@@ -15,7 +14,10 @@ export function calculateDuration(startTimestamp: string, endTimestamp: string):
 /**
  * Sums earned fees from `quoteCollectedFeesUsd` and `baseCollectedFeesUsd`.
  */
-export function calculateTotalFees(order: { quoteCollectedFeesUsd: string; baseCollectedFeesUsd: string }): number {
+export function calculateTotalFees(order: {
+  quoteCollectedFeesUsd: string;
+  baseCollectedFeesUsd: string;
+}): number {
   const quoteFees = parseFloat(order.quoteCollectedFeesUsd) || 0;
   const baseFees = parseFloat(order.baseCollectedFeesUsd) || 0;
   return +(quoteFees + baseFees).toFixed(6); // Ensure precision
@@ -53,47 +55,50 @@ export const calculatePriceFromTick = (tick: number): number => {
   return Math.pow(1.0001, tick);
 };
 
-
-
 /**
  * Fetches the USD price for a given token based on its name.
  */
-export  function getUsdPriceForToken(tokenName: string, tokenPrices:any): number {
+export function getUsdPriceForToken(tokenName: string, tokenPrices: any): number {
   return tokenPrices[tokenName.toLowerCase()];
 }
 
 /**
  * Calculates the total value in USD for an order.
  */
-export function calculateOrderValue(order: { baseAmount: string; quoteAmount: string; baseAsset: string; quoteAsset: string },allTokenPrices: { [key: string]: number; }): number {
-  const baseAmount = calculateCorrectAmount(order.baseAmount,order.baseAsset)
-  const quoteAmount = calculateCorrectAmount(order.quoteAmount,order.quoteAsset)
+export function calculateOrderValue(
+  order: {
+    baseAmount: string;
+    quoteAmount: string;
+    baseAsset: string;
+    quoteAsset: string;
+  },
+  allTokenPrices: { [key: string]: number }
+): number {
+  const baseAmount = calculateCorrectAmount(order.baseAmount, order.baseAsset);
+  const quoteAmount = calculateCorrectAmount(order.quoteAmount, order.quoteAsset);
 
-  const baseUsdPrice = getUsdPriceForToken(order.baseAsset, allTokenPrices) ;
-  const quoteUsdPrice = getUsdPriceForToken(order.quoteAsset, allTokenPrices) ;
+  const baseUsdPrice = getUsdPriceForToken(order.baseAsset, allTokenPrices);
+  const quoteUsdPrice = getUsdPriceForToken(order.quoteAsset, allTokenPrices);
 
   const baseValueInUsd = baseAmount * baseUsdPrice;
   const quoteValueInUsd = quoteAmount * quoteUsdPrice;
   return +(baseValueInUsd + quoteValueInUsd).toFixed(6); // Total value in USD
 }
 
-export const calculateCorrectAmount = (
-  amount: string | number,
-  asset: string
-): number => {
+export const calculateCorrectAmount = (amount: string | number, asset: string): number => {
   // Define precision mapping for each asset
   const precisionMap: Record<string, number> = {
-    btc: 1e8,       // Bitcoin precision
-    usdc: 1e6,      // USD Coin precision
-    arbusdc: 1e6,   // Arbitrum USD Coin precision
-    solusdc: 1e6,   // Solana USD Coin precision
-    arbeth: 1e18,   // Arbitrum Ethereum precision
-    usdt: 1e6,      // Tether precision
-    eth: 1e18,      // Ethereum precision
-    sol: 1e9,       // Solana precision
-    EPJ: 1e6,       // Paxos Standard precision
-    dot: 1e10,      // Polkadot precision
-    flip: 1e18,     // Chainflip token precision
+    btc: 1e8, // Bitcoin precision
+    usdc: 1e6, // USD Coin precision
+    arbusdc: 1e6, // Arbitrum USD Coin precision
+    solusdc: 1e6, // Solana USD Coin precision
+    arbeth: 1e18, // Arbitrum Ethereum precision
+    usdt: 1e6, // Tether precision
+    eth: 1e18, // Ethereum precision
+    sol: 1e9, // Solana precision
+    EPJ: 1e6, // Paxos Standard precision
+    dot: 1e10, // Polkadot precision
+    flip: 1e18, // Chainflip token precision
   };
 
   // Get the precision for the given asset; default to 1e18 if not found

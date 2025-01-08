@@ -34,7 +34,7 @@ export const processOrdersData = (
   // Extend orders with calculated fields
   const extendedData = rawOrders.map((order: any) => {
     const earnedFees = calculateTotalFees(order);
-    const orderValue = calculateOrderValue(order,allTokenPrices);
+    const orderValue = calculateOrderValue(order, allTokenPrices);
     const duration = calculateDuration(
       order.eventByOrderCreatedEventId.blockByBlockId.timestamp,
       order.eventByOrderLastUpdatedEventId?.blockByBlockId.timestamp || new Date().toISOString()
@@ -59,8 +59,8 @@ export const processOrdersData = (
   // Apply status filter
   let filteredData = extendedData;
   if (statusFilter) {
-    filteredData = extendedData.filter((order: any) =>
-      order.status.toLowerCase() === statusFilter.toLowerCase()
+    filteredData = extendedData.filter(
+      (order: any) => order.status.toLowerCase() === statusFilter.toLowerCase()
     );
   }
 

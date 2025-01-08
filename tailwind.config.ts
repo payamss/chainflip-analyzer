@@ -1,26 +1,26 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 export default {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'], 
+        sans: ['Inter', 'sans-serif'],
       },
       colors: {
-        primary: '#58A6FF', 
-        secondary: '#161B22', 
-        accent: '#21262D',
-        
-        border: '#30363D', 
+        primary: '#58A6FF',
+        secondary: '#111111',
+        accent: '#0d0d0d',
+
+        border: '#30363D',
         textLight: '#C9D1D9',
-        textGray: '#8B949E', 
+        textGray: '#8B949E',
         hover: '#1F6FEB',
-        "bg-header-pink": '##FF33AF', 
+        'bg-header-pink': '##FF33AF',
       },
     },
   },

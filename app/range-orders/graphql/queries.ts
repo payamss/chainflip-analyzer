@@ -1,39 +1,36 @@
 import { gql } from '@apollo/client';
 
 export const ALL_POOL_ORDERS = gql`
-query AllPoolOrders {
-    allPoolOrders(
-        condition: { orderType: RANGE }
-        orderBy: ORDER_CREATED_EVENT_ID_DESC
-    ) {
-        totalCount
-        nodes {
-            orderType
-            status
-            quoteAsset
-            quoteAmount
-            quoteCollectedFees
-            quoteCollectedFeesUsd
-            baseAsset
-            baseAmount
-            baseCollectedFees
-            baseCollectedFeesUsd
-            lowerTick
-            upperTick
-            liquidityProviderId
-            eventByOrderCreatedEventId {
-                blockByBlockId {
-                    timestamp
-                }
-            }
-            eventByOrderLastUpdatedEventId {
-                blockByBlockId {
-                    timestamp
-                }
-            }
+  query AllPoolOrders {
+    allPoolOrders(condition: { orderType: RANGE }, orderBy: ORDER_CREATED_EVENT_ID_DESC) {
+      totalCount
+      nodes {
+        orderType
+        status
+        quoteAsset
+        quoteAmount
+        quoteCollectedFees
+        quoteCollectedFeesUsd
+        baseAsset
+        baseAmount
+        baseCollectedFees
+        baseCollectedFeesUsd
+        lowerTick
+        upperTick
+        liquidityProviderId
+        eventByOrderCreatedEventId {
+          blockByBlockId {
+            timestamp
+          }
         }
+        eventByOrderLastUpdatedEventId {
+          blockByBlockId {
+            timestamp
+          }
+        }
+      }
     }
-}
+  }
 `;
 
 export const ALL_ACCOUNTS = gql`
@@ -46,17 +43,6 @@ export const ALL_ACCOUNTS = gql`
           id
         }
       }
-    }
-  }
-`;
-
-
-export const GET_TOKEN_PRICES = gql`
-  query GetTokenPrices($tokens: [PriceQueryInput!]!) {
-    tokenPrices: getTokenPrices(input: $tokens) {
-      chainId
-      address
-      usdPrice
     }
   }
 `;
