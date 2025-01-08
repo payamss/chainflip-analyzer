@@ -2,10 +2,7 @@ import { gql } from '@apollo/client';
 
 export const ALL_POOL_ORDERS = gql`
   query AllPoolOrders {
-    allPoolOrders(
-      condition: { orderType: RANGE }
-      orderBy: ORDER_CREATED_EVENT_ID_DESC
-    ) {
+    allPoolOrders(condition: { orderType: RANGE }, orderBy: ORDER_CREATED_EVENT_ID_DESC) {
       totalCount
       nodes {
         orderType

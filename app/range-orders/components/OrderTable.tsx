@@ -14,25 +14,47 @@ import { useTokenPrices } from '@/app/hooks/useTokenPrices';
 const ITEMS_PER_PAGE = 15;
 
 const OrderTable = () => {
-  const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+  const [sortConfig, setSortConfig] = useState<{
+    key: string;
+    direction: 'asc' | 'desc';
+  } | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   // Fetch data
-  const { loading: ordersLoading, error: ordersError, data: ordersData } = useQuery(ALL_POOL_ORDERS, { client });
-  const { loading: accountsLoading, error: accountsError, data: accountsData } = useQuery(ALL_ACCOUNTS, { client });
+  const {
+    loading: ordersLoading,
+    error: ordersError,
+    data: ordersData,
+  } = useQuery(ALL_POOL_ORDERS, { client });
+  const {
+    loading: accountsLoading,
+    error: accountsError,
+    data: accountsData,
+  } = useQuery(ALL_ACCOUNTS, { client });
   const { data: allTokenPrices, loading, error } = useTokenPrices();
 
-  if (loading) return <div className="text-textLight text-center">Loading...</div>;
-  if (error) return <div className="text-danger text-center">Error: {error.message}</div>;
+  if (loading) return <div className='text-center text-textLight'>Loading...</div>;
+  if (error) return <div className='text-danger text-center'>Error: {error.message}</div>;
 
-  if (ordersLoading || accountsLoading) return <div className="text-textLight text-center">Loading...</div>;
+  if (ordersLoading || accountsLoading)
+    return <div className='text-center text-textLight'>Loading...</div>;
   if (ordersError || accountsError)
-    return <div className="text-danger text-center">Error: {ordersError?.message || accountsError?.message}</div>;
+    return (
+      <div className='text-danger text-center'>
+        Error: {ordersError?.message || accountsError?.message}
+      </div>
+    );
 
   const rawOrders = ordersData?.allPoolOrders?.nodes || [];
   const rawAccounts = accountsData?.allAccounts?.nodes || [];
-  const processedData = processOrdersData(rawOrders, rawAccounts, statusFilter, sortConfig, allTokenPrices);
+  const processedData = processOrdersData(
+    rawOrders,
+    rawAccounts,
+    statusFilter,
+    sortConfig,
+    allTokenPrices
+  );
 
   // Pagination
   const totalItems = processedData.length;
@@ -41,23 +63,27 @@ const OrderTable = () => {
   const currentItems = processedData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
-    <div className="p-2 sm:p-6 lg:p-8 min-h-screen text-textLight">
+    <div className='min-h-screen p-2 text-textLight sm:p-6 lg:p-8'>
       {/* FilterBar */}
-      <div className="mb-4">
+      <div className='mb-4'>
         <FilterBar statusFilter={statusFilter} setStatusFilter={setStatusFilter} />
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto bg-secondary shadow-lg rounded-lg border border-accent">
-        <table className="min-w-full text-xs sm:text-sm md:text-base">
+      <div className='overflow-x-auto rounded-lg border border-accent bg-secondary shadow-lg'>
+        <table className='min-w-full text-xs sm:text-sm md:text-base'>
           <TableHeader sortConfig={sortConfig} setSortConfig={setSortConfig} />
           <TableBody currentItems={currentItems} />
         </table>
       </div>
 
       {/* Pagination */}
-      <div className="mt-4 flex flex-col items-center gap-2 sm:gap-4">
-        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+      <div className='mt-4 flex flex-col items-center gap-2 sm:gap-4'>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       </div>
     </div>
   );
