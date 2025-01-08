@@ -63,7 +63,7 @@ const OrderTable = () => {
   const currentItems = processedData.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
-    <div className='min-h-screen p-2 text-textLight sm:p-6 lg:p-8'>
+    <div className='min-h-screen p-2 text-textLight'>
       {/* FilterBar */}
       <div className='mb-4'>
         <FilterBar statusFilter={statusFilter} setStatusFilter={setStatusFilter} />
