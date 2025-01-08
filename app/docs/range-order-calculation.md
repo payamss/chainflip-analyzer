@@ -210,7 +210,3 @@ The Range Orders table now includes the following columns:
 - **Precision**: Floating-point arithmetic can introduce rounding errors. Values are typically truncated or rounded to a specified number of decimal places for readability.
 - **Zero Values**: For invalid inputs (e.g., negative duration, zero or negative fees), the calculations **default** to zero to avoid returning nonsensical rates.
 - **Extension**: These formulas can be adapted to other financial calculations, such as compounding, by adjusting the formula for DPR, MPR, and APR as needed.
-
----
-
-**End of Documentation**
