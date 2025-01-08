@@ -4,7 +4,7 @@ import TokenPricesDisplay from './range-orders/components/TokenPricesDisplay';
 
 export default function Home() {
   return (
-    <div className='flex min-h-screen items-center justify-center px-4'>
+    <div className='flex items-center px-4'>
       <TokenPricesDisplay />
     </div>
   );

@@ -23,7 +23,7 @@ const TableHeader = ({
 
   const columns = [
     { key: 'status', label: 'Status' },
-    { key: 'accountId', label: 'ID' },
+    { key: 'accountId', label: 'Account ID' },
     { key: 'baseAmount', label: 'Assets / Amount' },
     { key: 'orderValue', label: 'Value' },
     { key: 'range', label: 'Range' },
@@ -35,7 +35,7 @@ const TableHeader = ({
   ];
 
   return (
-    <thead className='bg-gray-950 uppercase text-white'>
+    <thead className='bg-neutral-900 uppercase text-white'>
       <tr>
         {columns.map((col) => (
           <th

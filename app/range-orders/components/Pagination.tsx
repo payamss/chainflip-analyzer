@@ -10,14 +10,14 @@ const Pagination = ({
   onPageChange: (page: number) => void;
 }) => {
   return (
-    <div className='mt-6 flex items-center justify-between'>
+    <div className='mt-6 flex items-center justify-between gap-2'>
       <button
         disabled={currentPage === 0}
         onClick={() => onPageChange(currentPage - 1)}
         className={`rounded-lg px-4 py-2 ${
           currentPage === 0
             ? 'cursor-not-allowed bg-accent text-gray-500'
-            : 'bg-secondary text-white hover:bg-gray-800'
+            : 'bg-secondary text-white hover:bg-neutral-800'
         }`}
       >
         Previous
@@ -31,7 +31,7 @@ const Pagination = ({
         className={`rounded-lg px-4 py-2 ${
           currentPage === totalPages - 1
             ? 'cursor-not-allowed bg-accent text-gray-500'
-            : 'bg-secondary text-white hover:bg-gray-800'
+            : 'bg-secondary text-white hover:bg-neutral-800'
         }`}
       >
         Next

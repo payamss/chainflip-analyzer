@@ -116,7 +116,7 @@ const TableBody = ({ currentItems }: { currentItems: any[] }) => {
                   href={accountLink}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='rounded-md bg-gray-900 px-3 py-2 text-white hover:bg-border'
+                  className='rounded-md bg-neutral-900 px-3 py-2 text-white hover:bg-neutral-800'
                 >
                   View
                 </a>

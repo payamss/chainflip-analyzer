@@ -13,8 +13,8 @@ export default {
       },
       colors: {
         primary: '#58A6FF',
-        secondary: '#161B22',
-        accent: '#21262D',
+        secondary: '#111111',
+        accent: '#0d0d0d',
 
         border: '#30363D',
         textLight: '#C9D1D9',

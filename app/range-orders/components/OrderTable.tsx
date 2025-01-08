@@ -70,7 +70,7 @@ const OrderTable = () => {
       </div>
 
       {/* Table */}
-      <div className='overflow-x-auto rounded-lg border border-accent bg-secondary shadow-lg'>
+      <div className='overflow-x-auto rounded-lg border border-neutral-800 bg-secondary shadow-2xl'>
         <table className='min-w-full text-xs sm:text-sm md:text-base'>
           <TableHeader sortConfig={sortConfig} setSortConfig={setSortConfig} />
           <TableBody currentItems={currentItems} />
