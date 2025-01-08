@@ -3,6 +3,7 @@ import React from 'react';
 import { calculateCorrectAmount, calculatePriceFromTick } from '@/utils/calculateMetrics';
 import Image from 'next/image';
 import { useAssetIconCache } from '@/app/hooks/useAssetIconCache';
+import { FaInfinity } from 'react-icons/fa6';
 const TableBody = ({ currentItems }: { currentItems: any[] }) => {
   const handleCopy = (id: string) => {
     navigator.clipboard.writeText(id);
@@ -18,7 +19,8 @@ const TableBody = ({ currentItems }: { currentItems: any[] }) => {
         const quoteAmount = calculateCorrectAmount(order.quoteAmount, order.quoteAsset);
 
         const lowerPrice = calculatePriceFromTick(order.lowerTick);
-        const upperPrice = calculatePriceFromTick(order.upperTick);
+        let upperPrice = calculatePriceFromTick(order.upperTick);
+        if (upperPrice >= 3.4025678683306347e38) upperPrice = Infinity;
         const accountLink = order.accountId
           ? `https://lp.chainflip.io/orders?accountId=${order.accountId}`
           : null;
@@ -102,7 +104,9 @@ const TableBody = ({ currentItems }: { currentItems: any[] }) => {
                   }}
                   height={16}
                 />
-                <div className='flex-shrink-0'>{`${upperPrice.toFixed(5)}`}</div>
+                <div className='flex-shrink-0'>
+                  {upperPrice !== Infinity ? upperPrice.toFixed(5) : <FaInfinity />}
+                </div>
               </div>
             </td>
             <td className='p-2'>${order.earnedFees.toFixed(6)}</td>
