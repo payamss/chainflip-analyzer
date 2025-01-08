@@ -1,9 +1,9 @@
 /* hooks/useTokenPrices.ts */
 
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import getAllTokenPrices from "@/utils/tokenMapper";
+import { useState, useEffect } from 'react';
+import getAllTokenPrices from '@/utils/tokenPrice';
 
 export const useTokenPrices = () => {
   const [data, setData] = useState<{ [key: string]: number }>({});

@@ -97,7 +97,10 @@
   // "prettier.printWidth": 200,
   // "prettier.proseWrap": "always",
   "prettier.tabWidth": 2,
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
   // "prettier.trailingComma": "all",
   // "prettier.useTabs": true
   // Uncomment the following lines if needed.

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React from "react";
-import { useTokenPrices } from "@/app/hooks/useTokenPrices";
-import { useAssetIconCache } from "@/app/hooks/useAssetIconCache";
-import Image from "next/image";
+import React from 'react';
+import { useTokenPrices } from '@/app/hooks/useTokenPrices';
+import { useAssetIconCache } from '@/app/hooks/useAssetIconCache';
+import Image from 'next/image';
 
 const TokenPricesDisplay = () => {
   const { data, loading, error } = useTokenPrices();
@@ -23,30 +23,33 @@ const TokenPricesDisplay = () => {
       <hr className="m-4" />
       <h2 className="text-lg sm:text-xl font-semibold mb-4">Token Prices</h2>
       <div className="justify-center flex flex-wrap gap-4">
-        <ul className="space-y-2 w-full">
-          {Object.entries(data).map(([token, price]) => (
-            <li
-              key={token}
-              className="flex items-center gap-4 sm:gap-2 justify-between sm:justify-start"
-            >
-              <div className="relative inline-block w-6 h-6 sm:w-8 sm:h-8">
-                <Image
-                  src={getAssetIcon(token || "").assetIcon}
-                  alt={token}
-                  className="inline-block"
-                  width={32}
-                  height={32}
-                />
-              </div>
-              <span className="font-medium text-sm sm:text-base">
-                {token}:
-              </span>
-              <span className="text-sm sm:text-base font-semibold">
-                ${price.toFixed(4)}
-              </span>
-            </li>
-          ))}
-        </ul>
+        {' '}
+        <div className="justify-center flex flex-wrap gap-4">
+          <ul className="space-y-2">
+            {Object.entries(data).map(([token, price]) => (
+              <li
+                key={token}
+                className="flex items-center gap-4 sm:gap-2 sm:justify-start"
+              >
+                <div className="relative inline-block w-6 h-6 sm:w-8 sm:h-8">
+                  <Image
+                    src={getAssetIcon(token || '').assetIcon}
+                    alt={token}
+                    className="inline-block"
+                    width={32}
+                    height={32}
+                  />
+                </div>
+                <span className="font-medium text-sm sm:text-base">
+                  {token}:
+                </span>
+                <span className="text-sm sm:text-base font-semibold">
+                  ${price.toFixed(4)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

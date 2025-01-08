@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Chainflip Analyzer Web App
 
-First, run the development server:
+[![Deployment](https://github.com/payamss/chainflip-analyzer/actions/workflows/deploy.yml/badge.svg)](https://github.com/payamss/chainflip-analyzer/actions/workflows/deploy.yml)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Chainflip Analyzer is a web application that provides detailed analysis and insights into liquidity pools and token prices on the Chainflip platform.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Fetches and displays token prices from various chains
+- Calculates and displays liquidity pool metrics such as DPR, MPR, and APR
+- Provides a detailed view of pool orders with relevant metrics
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Documentation
 
-## Learn More
+For detailed calculation logic and methodologies, refer to the following files:
 
-To learn more about Next.js, take a look at the following resources:
+- [Liquidity Pool Metrics Logic](./app/docs/range-order-calculation.md): Explains the logic of range order calculation APR, DPR, MPR, etc.
+- [Token Prices](./app/docs/getAllTokenPrices.md): Explains the logic for fetching and mapping token prices.
+- [GraphQL Queries](./app/docs/graphql.md): Contains the GraphQL queries used to fetch data.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Clone the repository to your local machine:
 
-## Deploy on Vercel
+    ```sh
+    git clone https://github.com/payamss/chainflip-analyzer.git
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Navigate to the project directory:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    ```sh
+    cd chainflip-analyzer
+    ```
+
+3. Install the dependencies:
+
+    ```sh
+    npm install
+    ```
+
+4. Start the development server:
+
+    ```sh
+    npm run dev
+    ```
+
+## Usage
+
+1. Open your browser and navigate to `http://localhost:3000`.
+
+2. Use the navigation menu to explore different sections of the app.
+
+3. View token prices, pool orders, and other metrics.
+
+## Screenshots
+
+### Token Prices
+
+<div align="center">
+  <img src="./public/screenshots/token-prices.png" alt="Token Prices">
+</div>
+
+### Range Orders
+
+<div align="center">
+  <img src="./public/screenshots/range-orders.png" alt="Range Orders">
+</div>
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
