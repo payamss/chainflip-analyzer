@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 const client = new ApolloClient({
-  uri: 'https://explorer-service-processor.chainflip.io/graphql',
+  uri: 'https://lp-service.chainflip.io/graphql',
   cache: new InMemoryCache(),
 });
 

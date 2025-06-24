@@ -25,8 +25,8 @@ export const processOrdersData = (
 ) => {
   // Map liquidityProviderId to idSs58
   const accountMap = rawAccounts.reduce((acc: any, account: any) => {
-    if (account.liquidityProviderByAccountId) {
-      acc[account.liquidityProviderByAccountId.id] = account.idSs58;
+    if (account.id) {
+      acc[account.id] = account.idSs58;
     }
     return acc;
   }, {});
@@ -36,8 +36,8 @@ export const processOrdersData = (
     const earnedFees = calculateTotalFees(order);
     const orderValue = calculateOrderValue(order, allTokenPrices);
     const duration = calculateDuration(
-      order.eventByOrderCreatedEventId.blockByBlockId.timestamp,
-      order.eventByOrderLastUpdatedEventId?.blockByBlockId.timestamp || new Date().toISOString()
+      order.eventByOrderCreatedEventId.timestamp,
+      order.eventByOrderLastUpdatedEventId?.timestamp || new Date().toISOString()
     );
     const dpr = calculateDPR(earnedFees, orderValue, duration);
     const mpr = calculateMPR(dpr);
