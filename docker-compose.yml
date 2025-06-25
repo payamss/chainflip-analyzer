@@ -5,15 +5,16 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 7000:3000
+      - 127.0.0.1:7000:3000
     environment:
       - NODE_ENV=production
     env_file:
       - .env
     networks:
-      - network
+      shared:
+        ipv4_address: 172.18.0.10
     container_name: ChainFlip-Analyzer
     restart: always
 networks:
-  network:
-    driver: bridge
+  shared:
+    external: true

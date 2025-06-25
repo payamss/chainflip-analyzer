@@ -1,74 +1,74 @@
-name: Deployment
-on:
-  push:
-    branches: [main]
+# name: Deployment
+# on:
+#   push:
+#     branches: [main]
 
-jobs:
-  deploy_to_server:
-    name: Deploying to Server
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4.1.1
+# jobs:
+#   deploy_to_server:
+#     name: Deploying to Server
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4.1.1
 
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v42.0.2
-        with:
-          since_last_remote_commit: true
-          separator: ','
+#       - name: Get changed files
+#         id: changed-files
+#         uses: tj-actions/changed-files@v42.0.2
+#         with:
+#           since_last_remote_commit: true
+#           separator: ','
 
-      - name: Extract app name
-        id: extract-app-name
-        run: |
-          echo "app-name=$(basename $GITHUB_REPOSITORY)" >> $GITHUB_OUTPUT
+#       - name: Extract app name
+#         id: extract-app-name
+#         run: |
+#           echo "app-name=$(basename $GITHUB_REPOSITORY)" >> $GITHUB_OUTPUT
 
-      - name: Copy files via SSH password
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          rm: true
-          source: ./*
-          target: /home/${{ secrets.USERNAME }}/${{ steps.extract-app-name.outputs.app-name }}
+#       - name: Copy files via SSH password
+#         uses: appleboy/scp-action@v0.1.7
+#         with:
+#           host: ${{ secrets.HOST }}
+#           username: ${{ secrets.USERNAME }}
+#           password: ${{ secrets.PASSWORD }}
+#           port: ${{ secrets.PORT }}
+#           rm: true
+#           source: ./*
+#           target: /home/${{ secrets.USERNAME }}/${{ steps.extract-app-name.outputs.app-name }}
 
-      - name: Upload .env file
-        run: echo "${{ secrets.ENV_FILE_CONTENTS }}" > .env
+#       - name: Upload .env file
+#         run: echo "${{ secrets.ENV_FILE_CONTENTS }}" > .env
 
-      - name: Copy .env file via SSH
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          source: .env
-          target: /home/${{ secrets.USERNAME }}/${{ steps.extract-app-name.outputs.app-name }}/
+#       - name: Copy .env file via SSH
+#         uses: appleboy/scp-action@v0.1.7
+#         with:
+#           host: ${{ secrets.HOST }}
+#           username: ${{ secrets.USERNAME }}
+#           password: ${{ secrets.PASSWORD }}
+#           port: ${{ secrets.PORT }}
+#           source: .env
+#           target: /home/${{ secrets.USERNAME }}/${{ steps.extract-app-name.outputs.app-name }}/
 
-  make_docker_run_service:
-    name: Make docker container and run service
-    runs-on: ubuntu-latest
-    needs: [deploy_to_server]
-    steps:
-      - name: Extract app name
-        id: extract-app-name
-        run: |
-          echo "app-name=$(basename $GITHUB_REPOSITORY)" >> $GITHUB_OUTPUT
+#   make_docker_run_service:
+#     name: Make docker container and run service
+#     runs-on: ubuntu-latest
+#     needs: [deploy_to_server]
+#     steps:
+#       - name: Extract app name
+#         id: extract-app-name
+#         run: |
+#           echo "app-name=$(basename $GITHUB_REPOSITORY)" >> $GITHUB_OUTPUT
 
-      - name: Executing remote SSH commands using password
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          script: |
-            cd /home/${{ secrets.USERNAME }}/${{ steps.extract-app-name.outputs.app-name }}
-            shopt -s dotglob
-            shopt -u dotglob
-            ls -a
-            docker compose down -v --rmi all
-            docker compose up -d --build
+#       - name: Executing remote SSH commands using password
+#         uses: appleboy/ssh-action@v1.0.3
+#         with:
+#           host: ${{ secrets.HOST }}
+#           username: ${{ secrets.USERNAME }}
+#           password: ${{ secrets.PASSWORD }}
+#           port: ${{ secrets.PORT }}
+#           script: |
+#             cd /home/${{ secrets.USERNAME }}/${{ steps.extract-app-name.outputs.app-name }}
+#             shopt -s dotglob
+#             shopt -u dotglob
+#             ls -a
+#             docker compose down -v --rmi all
+#             docker compose up -d --build
 
-            ls -a
+#             ls -a
