@@ -1,7 +1,4 @@
-
 # Chainflip Analyzer Web App
-
-[![Deployment](https://github.com/payamss/chainflip-analyzer/actions/workflows/deploy.yml/badge.svg)](https://github.com/payamss/chainflip-analyzer/actions/workflows/deploy.yml)
 
 Chainflip Analyzer is a web application that provides detailed analysis and insights into liquidity pools and token prices on the Chainflip platform.
 
@@ -12,8 +9,9 @@ Chainflip Analyzer is a web application that provides detailed analysis and insi
 - Provides a detailed view of pool orders with relevant metrics
 
 ## Documentation
- [**Demo**](https://cfa.shariat.de): you can see the real-time data on my website
- 
+
+[**Demo**](https://cfa.shariat.de): you can see the real-time data on my website
+
 For detailed calculation logic and methodologies, refer to the following files:
 
 - [Liquidity Pool Metrics Logic](./app/docs/range-order-calculation.md): Explains the logic of range order calculation APR, DPR, MPR, etc.
@@ -24,27 +22,27 @@ For detailed calculation logic and methodologies, refer to the following files:
 
 1. Clone the repository to your local machine:
 
-    ```sh
-    git clone https://github.com/payamss/chainflip-analyzer.git
-    ```
+   ```sh
+   git clone https://github.com/payamss/chainflip-analyzer.git
+   ```
 
 2. Navigate to the project directory:
 
-    ```sh
-    cd chainflip-analyzer
-    ```
+   ```sh
+   cd chainflip-analyzer
+   ```
 
 3. Install the dependencies:
 
-    ```sh
-    npm install
-    ```
+   ```sh
+   npm install
+   ```
 
 4. Start the development server:
 
-    ```sh
-    npm run dev
-    ```
+   ```sh
+   npm run dev
+   ```
 
 ## Usage
 

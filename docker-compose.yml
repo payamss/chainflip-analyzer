@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  app:
+  chainflip-analyzer:
     build:
       context: .
       dockerfile: Dockerfile
@@ -15,6 +15,12 @@ services:
         ipv4_address: 172.18.0.10
     container_name: ChainFlip-Analyzer
     restart: always
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 networks:
   shared:
     external: true
