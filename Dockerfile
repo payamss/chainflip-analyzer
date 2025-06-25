@@ -15,6 +15,7 @@ COPY --from=builder /app/.next /app/.next
 COPY --from=builder /app/public /app/public
 
 RUN npm ci --only=production
+RUN apk add --no-cache curl
 
 EXPOSE 3000
 ENV NODE_ENV=production
